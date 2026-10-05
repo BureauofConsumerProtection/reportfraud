@@ -1,0 +1,29 @@
+function doPost(e) {
+  try {
+    const payload = JSON.parse(e.postData.contents);
+
+    const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    sheet.appendRow([
+      new Date(),
+      payload.name || "",
+      payload.email || "",
+      payload.phone || "",
+      payload.state || "",
+      payload.type || "",
+      payload.incidentDate || "",
+      payload.amount || "",
+      payload.businessName || "",
+      payload.description || "",
+      payload.source || "",
+      payload.submittedAt || ""
+    ]);
+
+    return ContentService
+      .createTextOutput(JSON.stringify({ ok: true }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ ok: false, error: err.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
